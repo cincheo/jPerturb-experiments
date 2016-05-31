@@ -1,10 +1,5 @@
 package experiment;
 
-import laguerre.LaguerreManager;
-import partial_mutant.MutantExplorer;
-import tea.TEAManager;
-import bitcoin.BitcoinManager;
-import classifier.BayesManager;
 import experiment.exploration.BooleanExplorationNegation;
 import experiment.exploration.Exploration;
 import experiment.exploration.IntegerExplorationPlusMagnitude;
@@ -13,11 +8,7 @@ import experiment.explorer.*;
 import md5.MD5Manager;
 import mersenne.MersenneManager;
 import quicksort.QuickSortManager;
-import rc4.RC4Manager;
-import rsa.RSAManager;
-import simplex.SimplexManager;
 import sudoku.SudokuManager;
-import torrent.TorrentManager;
 import zip.ZipManager;
 
 /**
@@ -224,10 +215,10 @@ public class Main {
                 manager = new ZipManager(numberOfTask, sizeOfTask, seed);
                 break;
             case "rc4":
-                manager = new RC4Manager(numberOfTask, sizeOfTask, seed);
+//                manager = new RC4Manager(numberOfTask, sizeOfTask, seed);
                 break;
             case "torrent":
-                manager = new TorrentManager(numberOfTask, sizeOfTask, seed);
+//                manager = new TorrentManager(numberOfTask, sizeOfTask, seed);
                 break;
             case "mersenne":
             case "mt":
@@ -238,27 +229,27 @@ public class Main {
                 break;
             case "bitcoin":
             case "bc":
-                manager = new BitcoinManager(numberOfTask, sizeOfTask, seed, typePerturbed);
+//                manager = new BitcoinManager(numberOfTask, sizeOfTask, seed, typePerturbed);
                 break;
             case "classifier":
             case "bayes":
-                manager = new BayesManager(numberOfTask, sizeOfTask, seed);
+//                manager = new BayesManager(numberOfTask, sizeOfTask, seed);
                 break;
             case "sudoku":
                 manager = new SudokuManager(numberOfTask, sizeOfTask, seed);
                 break;
             case "cipher":
             case "rsa":
-                manager = new RSAManager(numberOfTask, sizeOfTask, seed);
+//                manager = new RSAManager(numberOfTask, sizeOfTask, seed);
                 break;
             case "simplex":
-                manager = new SimplexManager(numberOfTask, sizeOfTask, seed);
+//                manager = new SimplexManager(numberOfTask, sizeOfTask, seed);
                 break;
             case "tea":
-                manager = new TEAManager(numberOfTask, sizeOfTask, seed);
+//                manager = new TEAManager(numberOfTask, sizeOfTask, seed);
                 break;
             case "laguerre":
-                manager = new LaguerreManager(numberOfTask, sizeOfTask, seed);
+//                manager = new LaguerreManager(numberOfTask, sizeOfTask, seed);
                 break;
             default:
             case "qs":
