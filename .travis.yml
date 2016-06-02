@@ -16,6 +16,6 @@ install:
   - ./src/script/install.sh
   - mvn compile
 script:
-   - java -cp target/classes experiment.Main -v -s qs -nb 5 -exp call one
+   - java -cp target/classes experiment.Main -v -s qs -nb 10 -exp call one
 after_success:
     - ./src/script/commit.sh
