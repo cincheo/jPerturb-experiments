@@ -15,7 +15,7 @@ public class QuickSortManager extends ManagerImpl<int[], int[]> {
 
     public QuickSortManager(int nbTask, int sizeTask, int seed){
         super(seed);
-        super.CUP = QuickSortInstr.class;
+        this.locations = QuickSortInstr.getLocations();
         super.initialize(nbTask, sizeTask);
     }
 

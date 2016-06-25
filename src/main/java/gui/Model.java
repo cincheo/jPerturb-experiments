@@ -1,5 +1,6 @@
 package gui;
 
+import experiment.CallableImpl;
 import experiment.Manager;
 import experiment.Tuple;
 import perturbation.PerturbationEngine;
@@ -9,6 +10,7 @@ import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;
 import perturbation.perturbator.AddNPerturbatorImpl;
 import perturbation.perturbator.InvPerturbatorImpl;
+import quicksort.QuickSortManager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,13 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.concurrent.Future;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.stream.IntStream;
 
 /**
  * Created by bdanglot on 13/05/16.
@@ -40,8 +35,6 @@ public class Model extends Observable {
     private int size;
 
     private float step = 0.001f;
-
-    private Class<?> classManager;
 
     private int accExec;
 
@@ -108,12 +101,12 @@ public class Model extends Observable {
     }
 
     public void addRand(float value) {
-        this.rnd = this.rnd + value >= 1.0f? 1.0f : this.rnd + value;
+        this.rnd = this.rnd + value >= 1.0f ? 1.0f : this.rnd + value;
         this.setUpLocations();
     }
 
     public void minusRand(float value) {
-        this.rnd = this.rnd - value <= 0.0f? 0.0f : this.rnd - value;
+        this.rnd = this.rnd - value <= 0.0f ? 0.0f : this.rnd - value;
         this.setUpLocations();
     }
 
@@ -136,34 +129,31 @@ public class Model extends Observable {
         return config;
     }
 
-    public Model(Class<?> manager) {
+    public Model() {
         this.accExec = 0;
         this.accExecSuccess = 0;
         this.size = 100;
         this.numberOfTask = 40;
         this.avgPerturbationPerExec = 0.0d;
-        this.classManager = manager;
         this.classOfLocation = new ArrayList<>();
         this.classOfLocation.add("Antifragile");
         this.currentTypeOfLocation = new ArrayList<>();
         this.currentTypeOfLocation.add("Numerical");
-        try {
-            this.manager = (Manager) this.classManager.getConstructor(int.class, int.class, int.class).newInstance(this.numberOfTask, this.size, (int) System.currentTimeMillis());
-            this.initLocations();
-            this.setUpLocations();
-            PerturbationEngine.loggers.put("gui", new LoggerImpl());
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
+        this.manager = new QuickSortManager(this.numberOfTask, this.size, (int) System.currentTimeMillis());
+        this.initLocations();
+        this.setUpLocations();
+        PerturbationEngine.loggers.put("gui", new LoggerImpl());
     }
 
     private void initLocations() {
-        this.locations = this.manager.getLocations();
-        this.locations.stream().filter(location -> location.getType().equals("Boolean"))
-                .forEach(location -> location.setPerturbator(new InvPerturbatorImpl()));
-        this.locations.stream().filter(location -> location.getType().equals("Numerical"))
-                .forEach(location -> location.setPerturbator(new AddNPerturbatorImpl(1)));
+        this.locations = this.manager.getLocations();//TODO
+
+        for (PerturbationLocation location : this.locations) {
+            if (location.getType().equals("Boolean"))
+                location.setPerturbator(new InvPerturbatorImpl());
+            else
+                location.setPerturbator(new AddNPerturbatorImpl(1));
+        }
 
         this.antifragileLocation = new ArrayList<>();
         this.robustLocation = new ArrayList<>();
@@ -228,7 +218,9 @@ public class Model extends Observable {
     }
 
     private void setUpLocations() {
-        this.locations.forEach(location -> location.setEnactor(new NeverEnactorImpl()));//Clean up
+        for (PerturbationLocation location : this.locations) {
+            location.setEnactor(new NeverEnactorImpl());
+        }
 
         List<Integer> indices = new ArrayList<>();
         if (this.classOfLocation.contains("Antifragile"))
@@ -238,12 +230,10 @@ public class Model extends Observable {
         if (this.classOfLocation.contains("Weak"))
             indices.addAll(this.weakLocation);
 
-        this.locations.stream().filter(location -> this.currentTypeOfLocation.contains(location.getType()) && indices.contains(location.getLocationIndex()))
-                .forEach(location -> {
-                    location.setEnactor(new RandomEnactorImpl(rnd));
-                    System.out.print(location.getLocationIndex() + " ");
-                });
-        System.out.println();
+        for (PerturbationLocation location : this.locations) {
+            if (this.currentTypeOfLocation.contains(location.getType()) && indices.contains(location.getLocationIndex()))
+                location.setEnactor(new RandomEnactorImpl(rnd));
+        }
 
         this.setChanged();
         this.notifyObservers();
@@ -265,56 +255,36 @@ public class Model extends Observable {
     }
 
     public float runAllTask() {
-        try {
-            PerturbationEngine.loggers.get("gui").reset();
-            this.locations.forEach(location -> PerturbationEngine.loggers.get("gui").logOn(location));
-            this.manager = (Manager) this.classManager.getConstructor(int.class, int.class, int.class).newInstance(this.numberOfTask, this.size, (int) System.currentTimeMillis());
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
 
-        int nbSuccess = IntStream.range(0, numberOfTask).reduce(0, (acc, indexTask) -> acc + runPerturbation(indexTask));
+        PerturbationEngine.loggers.get("gui").reset();
+        for (PerturbationLocation location : this.locations)
+            PerturbationEngine.loggers.get("gui").logOn(location);
+        this.manager = new QuickSortManager(this.numberOfTask, this.size, (int) System.currentTimeMillis());
 
-        this.avgPerturbationPerExec = (double) IntStream.range(0, locations.size())
-                .reduce(0, (acc, indexLocation) ->
-                        acc + PerturbationEngine.loggers.get("gui").getEnactions(locations.get(indexLocation))
-                ) / (double) numberOfTask;
+        int nbSuccess = 0;
+        for (int i = 0; i < numberOfTask; i++)
+            nbSuccess += runPerturbation(i);
+
+        int acc = 0;
+        for (PerturbationLocation location : this.locations)
+            acc += PerturbationEngine.loggers.get("gui").getEnactions(location);
+
+        this.avgPerturbationPerExec = (double) acc / (double) numberOfTask;
 
         return (float) nbSuccess / (float) (numberOfTask) * 100;
     }
 
-    private int runLocation(int indexTask, PerturbationLocation location) {
-        location.setEnactor(new RandomEnactorImpl(rnd));
-        int assertion = runPerturbation(indexTask);
-        location.setEnactor(new NeverEnactorImpl());
-        return assertion;
-    }
-
     private int runPerturbation(int indexTask) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
         accExec++;
         try {
-            Callable instanceRunner = this.manager.getCallable(manager.getTask(indexTask));
-            Future future = executor.submit(instanceRunner);
-            try {
-                Object output = future.get(15, TimeUnit.SECONDS);
-                if (this.manager.getOracle().assertPerturbation(manager.getTask(indexTask), output)) {
-                    executor.shutdownNow();
-                    accExecSuccess++;
-                    return 1;
-                } else {
-                    executor.shutdownNow();
-                    return 0;
-                }
-            } catch (TimeoutException e) {
-                future.cancel(true);
-                System.err.println("Time out!");
-                executor.shutdownNow();
+            CallableImpl callable = this.manager.getCallable(manager.getTask(indexTask));
+            Object output = callable.call();
+            if (this.manager.getOracle().assertPerturbation(manager.getTask(indexTask), output)) {
+                accExecSuccess++;
+                return 1;
+            } else
                 return 0;
-            }
         } catch (Exception | Error e) {
-            executor.shutdownNow();
             return 0;
         }
     }

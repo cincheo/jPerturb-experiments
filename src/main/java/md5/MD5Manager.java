@@ -16,7 +16,6 @@ public class MD5Manager extends ManagerImpl<String, byte[]> {
 
     public MD5Manager(int numberOfTask, int size, int seed) {
         super(seed);
-        super.CUP = MD5Instr.class;
         super.initialize(numberOfTask, size);
     }
 

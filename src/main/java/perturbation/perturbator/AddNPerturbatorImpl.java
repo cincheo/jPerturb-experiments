@@ -2,8 +2,6 @@
 
 package perturbation.perturbator;
 
-import java.math.BigInteger;
-
 public class AddNPerturbatorImpl implements Perturbator {
     private int n = 1;
 
@@ -51,8 +49,5 @@ public class AddNPerturbatorImpl implements Perturbator {
         return value + (AddNPerturbatorImpl.this.n);
     }
 
-    public BigInteger pBigInteger(BigInteger value) {
-        return value.add(BigInteger.valueOf(AddNPerturbatorImpl.this.n));
-    }
 }
 

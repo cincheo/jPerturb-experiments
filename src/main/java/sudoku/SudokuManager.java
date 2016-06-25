@@ -27,7 +27,7 @@ public class SudokuManager extends ManagerImpl<int[][],int[][]> {
 
     public SudokuManager(int numberOfTask, int size, int seed) {
         super(seed);
-        super.CUP = SudokuInstr.class;
+        //LOCATIONS TODO
         super.initialize(numberOfTask, size);
         try {
             br.close();

@@ -11,7 +11,7 @@ public class ResourcesManager extends ManagerImpl<Object, Object> {
 
     public ResourcesManager() {
         super(1);
-        super.CUP = Resources.class;
+        //LOCATIONS TODO
         super.initialize(2,1);
     }
 

@@ -11,8 +11,6 @@ public interface Manager<T, P> {
 
     void initialize(int numberOfTask, int sizeOfTask);
 
-    Class<?> getCUP();
-
     /**
      * @return a proper type of callable
      */

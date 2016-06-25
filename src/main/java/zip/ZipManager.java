@@ -15,7 +15,7 @@ public class ZipManager extends ManagerImpl<String,String> {
 
     public ZipManager(int numberOfTask, int size, int seed) {
         super(23);
-        super.CUP = LZWInstr.class;
+        //LOCATIONS TODO
         super.initialize(numberOfTask, size);
     }
 

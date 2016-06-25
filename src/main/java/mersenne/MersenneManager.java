@@ -17,7 +17,7 @@ public class MersenneManager extends ManagerImpl<Long, List<Long>> {
 
     public MersenneManager(int numberOfTask, int size, int seed) {
         super(seed);
-        super.CUP = MersenneTwisterInstr.class;
+        //LOCATIONS TODO
         super.initialize(numberOfTask, size);
     }
 

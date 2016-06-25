@@ -99,17 +99,6 @@ public class PerturbationEngine {
         }
     }
 
-    public static BigInteger pBigInteger(PerturbationLocation perturbationLocation, BigInteger value) {
-        if (perturbationLocation.getEnactor().shouldBeActivated()) {
-            PerturbationEngine.notifyEnactionOn(perturbationLocation);
-            BigInteger perturbation = perturbationLocation.getPerturbator().pBigInteger(value);
-            return perturbation;
-        } else {
-            PerturbationEngine.notifyCallOn(perturbationLocation);
-            return value;
-        }
-    }
-
     private static void notifyCallOn(PerturbationLocation location) {
         for (Logger logger : PerturbationEngine.loggers.values()) {
             logger.logCall(location);

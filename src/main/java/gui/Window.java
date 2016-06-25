@@ -1,7 +1,6 @@
 package gui;
 
 import experiment.Tuple;
-import quicksort.QuickSortManager;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
@@ -19,14 +18,11 @@ import java.awt.Checkbox;
 import java.awt.BasicStroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.ItemEvent;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -134,25 +130,6 @@ public class Window extends JFrame implements Observer {
                         break;
                 }
                 rand.setText(String.format("%.3f", model.getRnd()));
-            }
-        });
-
-        this.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                try {
-                    Class<?> clazz = e.getClass();
-                    Field fieldRawCode = clazz.getDeclaredField("rawCode");
-                    fieldRawCode.setAccessible(true);
-                    long rawCode = (long) fieldRawCode.get(e);
-                    if (rawCode == 123)
-                        model.addRand(0.05f);
-                    else if (rawCode == 122)
-                        model.minusRand(0.05f);
-                    rand.setText(String.format("%.3f", model.getRnd()));
-                } catch (NoSuchFieldException | IllegalAccessException ex) {
-                    ex.printStackTrace();
-                }
             }
         });
     }
@@ -273,8 +250,8 @@ public class Window extends JFrame implements Observer {
 
     }
 
-    public static void launch(Class<?> clazz) {
-        Model m = new Model(clazz);
+    public static void launch() {
+        Model m = new Model();
         Window w = new Window(m);
         while (true) {
             w.requestFocus();

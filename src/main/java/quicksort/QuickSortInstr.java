@@ -6,6 +6,9 @@ import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class QuickSortInstr {
     static {
         QuickSortInstr.initPerturbationLocation0();
@@ -134,6 +137,56 @@ public class QuickSortInstr {
         int x = PerturbationEngine.pint(__L41, array[PerturbationEngine.pint(__L40, i)]);
         array[PerturbationEngine.pint(__L42, i)] = PerturbationEngine.pint(__L44, array[PerturbationEngine.pint(__L43, j)]);
         array[PerturbationEngine.pint(__L45, j)] = PerturbationEngine.pint(__L46, x);
+    }
+
+    public static List<PerturbationLocation> getLocations() {
+        List<PerturbationLocation> locations = new ArrayList<>();
+        locations.add(__L0);
+        locations.add(__L1);
+        locations.add(__L2);
+        locations.add(__L3);
+        locations.add(__L4);
+        locations.add(__L5);
+        locations.add(__L6);
+        locations.add(__L7);
+        locations.add(__L8);
+        locations.add(__L9);
+        locations.add(__L10);
+        locations.add(__L11);
+        locations.add(__L12);
+        locations.add(__L13);
+        locations.add(__L14);
+        locations.add(__L15);
+        locations.add(__L16);
+        locations.add(__L17);
+        locations.add(__L18);
+        locations.add(__L19);
+        locations.add(__L20);
+        locations.add(__L21);
+        locations.add(__L22);
+        locations.add(__L23);
+        locations.add(__L24);
+        locations.add(__L25);
+        locations.add(__L26);
+        locations.add(__L27);
+        locations.add(__L28);
+        locations.add(__L29);
+        locations.add(__L31);
+        locations.add(__L32);
+        locations.add(__L33);
+        locations.add(__L34);
+        locations.add(__L35);
+        locations.add(__L36);
+        locations.add(__L37);
+        locations.add(__L38);
+        locations.add(__L39);
+        locations.add(__L41);
+        locations.add(__L42);
+        locations.add(__L43);
+        locations.add(__L44);
+        locations.add(__L45);
+        locations.add(__L46);
+        return locations;
     }
 
     private static void initPerturbationLocation0() {

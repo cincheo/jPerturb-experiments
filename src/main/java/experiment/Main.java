@@ -29,55 +29,57 @@ public class Main {
 
     public static void main(String[] args) {
 
-        if (getIndexOfOption("-help", args) != -1 || getIndexOfOption("-h", args) != -1)
-            usage();
+        runGui();
 
-        if (getIndexOfOption("-v", args) != -1)
-            verbose = true;
-
-        int currentIndex = -1;
-        if ((currentIndex = getIndexOfOption("-time", args)) != -1) {
-            try {
-                numberOfSecondsToWait = Integer.parseInt(args[currentIndex + 1]);
-            } catch (NumberFormatException e) {
-                System.err.println("Time specified must be an integer.");
-                usage();
-            }
-        }
-
-        if ((currentIndex = getIndexOfOption("-size", args)) != -1) {
-            try {
-                sizeOfTask = Integer.parseInt(args[currentIndex + 1]);
-            } catch (NumberFormatException e) {
-                System.err.println("Size specified must be an integer.");
-                usage();
-            }
-        }
-
-        if ((currentIndex = getIndexOfOption("-nb", args)) != -1) {
-            try {
-                numberOfTask = Integer.parseInt(args[currentIndex + 1]);
-            } catch (NumberFormatException e) {
-                System.err.println("Number of Task specified must be an integer.");
-                usage();
-            }
-        }
-
-        if ((currentIndex = getIndexOfOption("-type", args)) != -1) {
-            if (args[currentIndex + 1].equals("Numerical") || args[currentIndex + 1].equals("Boolean"))
-                typePerturbed = args[currentIndex + 1];
-            else
-                usage();
-        }
-
-        if ((currentIndex = getIndexOfOption("-s", args)) != -1) {
-            buildSubject(currentIndex + 1, args);
-        }
-
-       if ((currentIndex = getIndexOfOption("-run", args)) != -1) {
-            run(currentIndex + 1, args);
-       } else
-           usage();
+//        if (getIndexOfOption("-help", args) != -1 || getIndexOfOption("-h", args) != -1)
+//            usage();
+//
+//        if (getIndexOfOption("-v", args) != -1)
+//            verbose = true;
+//
+//        int currentIndex = -1;
+//        if ((currentIndex = getIndexOfOption("-time", args)) != -1) {
+//            try {
+//                numberOfSecondsToWait = Integer.parseInt(args[currentIndex + 1]);
+//            } catch (NumberFormatException e) {
+//                System.err.println("Time specified must be an integer.");
+//                usage();
+//            }
+//        }
+//
+//        if ((currentIndex = getIndexOfOption("-size", args)) != -1) {
+//            try {
+//                sizeOfTask = Integer.parseInt(args[currentIndex + 1]);
+//            } catch (NumberFormatException e) {
+//                System.err.println("Size specified must be an integer.");
+//                usage();
+//            }
+//        }
+//
+//        if ((currentIndex = getIndexOfOption("-nb", args)) != -1) {
+//            try {
+//                numberOfTask = Integer.parseInt(args[currentIndex + 1]);
+//            } catch (NumberFormatException e) {
+//                System.err.println("Number of Task specified must be an integer.");
+//                usage();
+//            }
+//        }
+//
+//        if ((currentIndex = getIndexOfOption("-type", args)) != -1) {
+//            if (args[currentIndex + 1].equals("Numerical") || args[currentIndex + 1].equals("Boolean"))
+//                typePerturbed = args[currentIndex + 1];
+//            else
+//                usage();
+//        }
+//
+//        if ((currentIndex = getIndexOfOption("-s", args)) != -1) {
+//            buildSubject(currentIndex + 1, args);
+//        }
+//
+//       if ((currentIndex = getIndexOfOption("-run", args)) != -1) {
+//            run(currentIndex + 1, args);
+//       } else
+//           usage();
 
     }
 
@@ -93,7 +95,7 @@ public class Main {
     }
 
     private static void runGui() {
-        Window.launch(manager.getClass());
+        Window.launch();
     }
 
     private static void buildSubject(int index, String[] args) {

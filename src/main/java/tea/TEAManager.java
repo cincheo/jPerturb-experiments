@@ -17,7 +17,7 @@ public class TEAManager extends ManagerImpl<int[], int[]> {
 
     public TEAManager(int numberOfTask, int size, int seed) {
         super(seed);
-        super.CUP = TEAInstr.class;
+        //LOCATIONS TODO
         super.initialize(numberOfTask, size);
     }
 

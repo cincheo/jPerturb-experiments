@@ -2,8 +2,6 @@
 
 package perturbation.perturbator;
 
-import java.math.BigInteger;
-
 public class InvPerturbatorImpl implements Perturbator {
     @Override
     public boolean pboolean(boolean value) {
@@ -43,10 +41,6 @@ public class InvPerturbatorImpl implements Perturbator {
     @Override
     public double pdouble(double value) {
         return (-1) * value;
-    }
-
-    public BigInteger pBigInteger(BigInteger value) {
-        return value.multiply(BigInteger.valueOf((-1)));
     }
 
     @Override
