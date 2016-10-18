@@ -91,7 +91,7 @@ public class Main {
             default:
                 usage();
         }
-        System.exit(0);
+        throw new RuntimeException("program ended");
     }
 
     private static void runGui() {
@@ -137,7 +137,6 @@ public class Main {
         System.out.println("\t-run gui to run the GUI");
         System.out.println("\t-exp <subject>, with ");
         System.out.println("\t<subject> : quicksort tea sudoku mersenne zip md5");
-        System.exit(-1);
     }
 
 

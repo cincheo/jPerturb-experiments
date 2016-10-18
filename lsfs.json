@@ -1,0 +1,7 @@
+{
+	in: '.',
+	out: 'webapp/resources',
+	includeFilter: '*',
+	excludeFilter: '*.jpeg|*.pdf',
+	includeDirFilter: 'results|results/quicksort'
+}

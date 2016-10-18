@@ -13,9 +13,9 @@ public class SudokuCallableImpl extends CallableImpl<int[][],int[][]> {
 
     @Override
     public int[][] call() throws Exception {
-        SudokuInstr sudoku = new SudokuInstr(super.input);
-        sudoku.initSubsets();
-        sudoku.solve();
-        return sudoku.getGrid();
+        SudokuInstr sudokuVar = new SudokuInstr(super.input);
+        sudokuVar.initSubsets();
+        sudokuVar.solve();
+        return sudokuVar.getGrid();
     }
 }
